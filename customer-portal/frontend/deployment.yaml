@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-app
+  namespace: customer-portal-namespace
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-app
+          image: ${FRONTEND_DOCKER_IMAGE}
+          ports:
+            - containerPort: 3000
+          envFrom:
+          - secretRef:
+              name: customer-portal-secret
